@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تقييم الخدمات | الموقع الرسمي لجماعة بركان</title>
+  <link rel="icon" type="image/png" href="téléchargement.png">
+  <link rel="canonical" href="https://www.communeberkane.ma/ar/خدمات">
+
+  <style>
+    /* 
+       TOKENS — كل الألوان والقياسات في مكان واحد
+    
+       */
+    :root {
+      --clr-primary:     #f16f0c;
+      --clr-primary-dk:  #d45d00;
+      --clr-primary-lt:  #fff3e8;
+      --clr-success:     #219b25;
+      --clr-error:       #e53935;
+      --clr-purple:      #5b4af5;
+      --clr-purple-lt:   #f0eeff;
+      --clr-text:        #222;
+      --clr-muted:       #888;
+      --clr-border:      #e0e0e0;
+      --clr-bg-soft:     #fafafa;
+      --clr-footer:      #CD5C5C;
+      --radius-card:     16px;
+      --radius-btn:      10px;
+      --shadow-card:     0 8px 32px rgba(0,0,0,.12);
+      --transition:      0.2s ease;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      direction: rtl;
+      background: linear-gradient(to left, #e2e2e2, #dc862f);
+      color: var(--clr-text);
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       HEADER TOP
+       ============================================================ */
+    .header-top {
+      display: flex;
+      align-items: stretch;
+      padding: 15px 16px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      padding-left: 14px;
+      flex-shrink: 0;
+    }
+
+    .header-left-col {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .nav-links a {
+      padding: 3px 10px;
+      color: #333;
+      border-left: 1px solid #ddd;
+      white-space: nowrap;
+    }
+    .nav-links a:last-child { border-left: none; }
+    .nav-links a:hover { color: var(--clr-primary); }
+
+    .social-bar {
+      direction: ltr;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 2px 10px;
+    }
+    .social-bar a { color: #444; transition: color var(--transition); display: block; }
+    .social-bar a:hover { color: #000; }
+    .social-bar svg { width: 17px; height: 17px; fill: currentColor; display: block; }
+
+    /* ============================================================
+       MAIN NAV
+       ============================================================ */
+    .main-nav {
+      display: flex;
+      align-items: stretch;
+      background: var(--clr-primary);
+    }
+
+    .main-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 11px 15px;
+      white-space: nowrap;
+      transition: background var(--transition);
+    }
+    .main-nav a:hover,
+    .main-nav a.active { background: var(--clr-success); }
+    .main-nav a.empty { pointer-events: none; }
+    .main-nav a.empty:hover { background: transparent; }
+
+    /* ============================================================
+       WIZARD WRAPPER
+       ============================================================ */
+    #evaluation-wizard {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .wizard-card {
+      background: #fff;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+    }
+
+    /* ── En-tête de la carte ── */
+    .wizard-header {
+      background: linear-gradient(135deg, var(--clr-primary), #dc862f);
+      padding: 22px 28px;
+      color: #fff;
+    }
+    .wizard-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .wizard-header p  { font-size: 13px; opacity: .85; }
+
+    /* ── Indicateur d'étapes ── */
+    .wizard-steps-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 28px;
+      background: #fdf5ef;
+      border-bottom: 1px solid #f0e0d0;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .step-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      border: 2px solid var(--clr-border);
+      background: #fff;
+      color: #aaa;
+      transition: all .3s ease;
+      flex-shrink: 0;
+    }
+    .step-dot.active { border-color: var(--clr-primary); background: var(--clr-primary); color: #fff; }
+    .step-dot.done   { border-color: var(--clr-success); background: var(--clr-success); color: #fff; }
+
+    .step-line {
+      flex: 1; height: 2px; background: var(--clr-border);
+      min-width: 20px; max-width: 60px;
+      transition: background .3s ease;
+    }
+    .step-line.done { background: var(--clr-success); }
+
+    /* ── Corps ── */
+    .wizard-body {
+      padding: 0;
+      min-height: 280px;
+    }
+
+    /* ── Étapes ── */
+    .wizard-step {
+      display: none;
+      opacity: 0;
+    }
+    .wizard-step.active {
+      display: block;
+      animation: fadeSlideIn .35s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .step-title {
+      font-size: 17px; font-weight: 700;
+      color: #222;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0e0d0;
+    }
+
+    /* ── Pied de page wizard ── */
+    .wizard-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 28px;
+      background: #fdf5ef;
+      border-top: 1px solid #f0e0d0;
+      gap: 12px;
+    }
+
+    /* ============================================================
+       BOUTONS
+       ============================================================ */
+    .btn {
+      padding: 11px 28px;
+      border-radius: var(--radius-btn);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; border: none;
+      transition: background var(--transition), opacity var(--transition), transform .1s;
+      font-family: inherit;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    .btn-prev { background: #fff; color: #666; border: 2px solid var(--clr-border); }
+    .btn-prev:hover:not(:disabled) { border-color: var(--clr-primary); color: var(--clr-primary); }
+
+    .btn-next { background: var(--clr-primary); color: #fff; }
+    .btn-next:hover:not(:disabled) { background: var(--clr-primary-dk); }
+
+    .btn-submit {
+      background: var(--clr-success); color: #fff;
+      padding: 13px 36px; font-size: 15px;
+      margin: 20px auto 0; display: block;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a7d1e; }
+
+    /* ============================================================
+       MESSAGES D'ERREUR / VALIDATION
+       ============================================================ */
+    .validation-msg {
+      font-size: 12px; color: var(--clr-error);
+      min-height: 18px; margin-top: 4px;
+      text-align: center;
+    }
+
+    .field-error {
+      color: var(--clr-error);
+      font-size: 12px;
+      display: block;
+      margin-top: -4px;
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       ÉTAPE 0 — INSCRIPTION (Nom + Email)
+       ============================================================ */
+    .register-box{
+      text-align:center;
+      width:100%;
+      max-width:none;
+      margin:0;
+    }
+
+    .register-box h1{
+      font-size:24px;
+      font-weight: 700;
+      color:#2f3440;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      margin-top:20px;
+    }
+    .container{
+      padding:0px 0px 20px;
+    }
+    .intro{
+      font-size:14px;
+      line-height:1.8;
+      color:#2f3440;
+      margin:10px 0 24px;
+    }
+
+    .register-box h2{
+      font-size:14px;
+      font-weight:normal;
+      margin-bottom:70px;
+    }
+    .field-group{
+      width:80%;
+      margin:0 auto 40px;
+      text-align:right;
+    }
+    .field-group label{
+      display:block;
+      font-size:22px;
+      margin-bottom:15px;
+    }
+    .field-group input{
+      width:100%;
+      height:44px;
+      border:none;
+      border-radius:15px;
+      background:#e9e9e9;
+      padding:0 20px;
+      font-size:14px;
+      text-align:right;
+    }
+    .login-btn{
+      background:#f97300;
+      color:white;
+      border:none;
+      padding:11px 28px;
+      border-radius:15px;
+      font-size:14px;
+      cursor:pointer;
+      margin-top:20px;
+    }
+    .login-btn:hover{
+      background:#e56700;
+    }
+    .field-error{
+      display:block;
+      color:#e53935;
+      font-size:15px;
+      margin-top:8px;
+      text-align:right;
+      min-height:20px;
+    }
+   .input-error{
+      border:2px solid #e53935 !important;
+      background:#fff5f5 !important;
+    }
+    /* ============================================================
+       ÉTAPE 1 — ÂGE & GENRE
+       ============================================================ */
+    .age-gender-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Genre */
+    .gender-group {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .gender-btn {
+      flex: 1; max-width: 150px;
+      height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px;
+      font-size: 16px; font-weight: 700;
+      font-family: inherit;
+      border-radius: 14px;
+      border: 2px solid var(--clr-border);
+      background: var(--clr-bg-soft);
+      color: #333;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .gender-btn:hover { border-color: var(--clr-primary); background: var(--clr-primary-lt); color: var(--clr-primary); }
+    .gender-btn.selected {border-color: var(--clr-primary); background: var(--clr-primary-lt); color: var(--clr-primary);} 
+    /* Âge */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background var(--transition);
+      background: var(--clr-bg-soft);
+      border: 2px solid transparent;
+    }
+    .option-item:hover {border-color: var(--clr-primary); background: var(--clr-primary-lt); color: var(--clr-primary);}
+    .option-item.selected {border-color: var(--clr-primary); background: var(--clr-primary-lt); color: var(--clr-primary);}
+    .option-label { font-size: 14px; color: #222; }
+
+    .radio-circle {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #ccc;
+      flex-shrink: 0;
+      transition: border-color .15s, background .15s;
+    }
+.option-item.selected .radio-circle {border-color: var(--clr-primary); background-color: var(--clr-primary);}
+    .radio-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0; transform: scale(0);
+      transition: opacity .15s, transform .15s;
+    }
+    .option-item.selected .radio-dot { opacity: 1; transform: scale(1); }
+
+    /* ============================================================
+       ÉTAPE 2 — CHOIX DU BUREAU
+       ============================================================ */
+    .offices-grid { display: flex; flex-direction: column; gap: 10px; }
+
+    .office-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 2px solid var(--clr-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+      background: var(--clr-bg-soft);
+    }
+    .office-card:hover { border-color: var(--clr-primary); background: #fff8f2; }
+    .office-card.selected { border-color: var(--clr-primary); background: var(--clr-primary-lt); }
+
+    .office-radio {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color var(--transition);
+    }
+    .office-card.selected .office-radio { border-color: var(--clr-primary); }
+    .office-radio::after {
+      content: ''; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--clr-primary);
+      display: none;
+    }
+    .office-card.selected .office-radio::after { display: block; }
+    .office-icon  { font-size: 22px; flex-shrink: 0; }
+    .office-name  { font-size: 14px; font-weight: 600; color: #333; flex: 1; }
+
+    /* ============================================================
+       ÉTAPE 3 — QUESTIONS / ÉTOILES
+       ============================================================ */
+    .questions-progress { margin-bottom: 20px; }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px; color: var(--clr-muted);
+      margin-bottom: 7px;
+    }
+    .progress-label span:first-child { font-weight: 600; color: var(--clr-primary); }
+
+    .progress-bar-track { height: 6px; background: #f0e0d0; border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill  {
+      height: 100%;
+      background: linear-gradient(to left, var(--clr-primary), #dc862f);
+      border-radius: 10px;
+      transition: width .4s ease;
+    }
+
+    .question-text { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 24px; line-height: 1.6; }
+
+    .stars-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-direction: row-reverse;
+      margin-bottom: 8px;
+    }
+    .star {
+      font-size: 36px; cursor: pointer; color: #ddd;
+      transition: color .15s, transform .15s;
+      user-select: none;
+    }
+    .star:hover, .star.hovered, .star.selected { color: #f5a623; transform: scale(1.15); }
+    .stars-hint { text-align: center; font-size: 12px; color: #aaa; min-height: 18px; }
+
+    /* ============================================================
+       ÉTAPE 4 — OUI / NON
+       ============================================================ */
+    .yesno-group {
+      display: flex; gap: 16px;
+      justify-content: center; margin-top: 12px;
+    }
+    .yesno-btn {
+      flex: 1; max-width: 160px;
+      padding: 18px;
+      border: 2px solid var(--clr-border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 18px; font-weight: 700; color: #555;
+      background: var(--clr-bg-soft);
+      transition: all var(--transition);
+    }
+    .yesno-btn .btn-icon { font-size: 30px; margin-bottom: 6px; }
+    .yesno-btn:hover { border-color: var(--clr-primary); background: #fff8f2; }
+    .yesno-btn.selected-yes { border-color: var(--clr-success); background: #eafbea; color: var(--clr-success); }
+    .yesno-btn.selected-no  { border-color: var(--clr-error);   background: #ffeaea; color: var(--clr-error); }
+
+    /* ============================================================
+       ÉTAPE 5 — AMÉLIORATIONS (checkboxes)
+       ============================================================ */
+    .improvement-options { display: flex; flex-direction: column; gap: 12px; }
+
+    .improvement-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px;
+      background: #fff;
+      border: 2px solid #dcdcdc;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,.06);
+      transition: border-color var(--transition);
+    }
+    .improvement-card:hover { border-color: var(--clr-primary); }
+    .improvement-card input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; flex-shrink: 0; accent-color: var(--clr-primary); }
+    .improvement-card span { font-size: 15px; font-weight: 500; color: #333; }
+
+    .comment-textarea {
+      width: 100%; min-height: 120px;
+      padding: 12px;
+      border: 2px solid var(--clr-border);
+      border-radius: 10px;
+      font-family: inherit; font-size: 14px;
+      direction: rtl; resize: vertical;
+      color: #333; background: var(--clr-bg-soft);
+      transition: border-color var(--transition);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+    .comment-textarea:focus { outline: none; border-color: var(--clr-primary); background: #fff; }
+
+    /* ============================================================
+       ÉTAPE 6 — MERCI
+       ============================================================ */
+    .thank-you-content { text-align: center; padding: 20px 0; }
+    .thank-you-icon {
+      font-size: 64px; margin-bottom: 16px;
+      animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(.4); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .thank-you-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .thank-you-content p  { font-size: 14px; color: #777; max-width: 400px; margin: 0 auto; line-height: 1.7; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer { background: var(--clr-footer); color: #fff; padding: 30px 20px 0; margin-top: auto; direction: rtl; }
+
+    .footer-grid {
+      display: flex; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap; padding-bottom: 20px;
+    }
+
+    .footer-logo { display: flex; align-items: flex-start; padding-top: 4px; }
+
+    .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .footer-col ul  { list-style: none; line-height: 2; }
+    .footer-col ul li, .footer-col ul li a { font-size: 13px; color: #f5c6c2; }
+    .footer-col ul li a:hover { color: #fff; }
+
+    .footer-social { display: flex; gap: 12px; margin-top: 12px; }
+    .footer-social a { color: #fff; opacity: .85; transition: opacity var(--transition); }
+    .footer-social a:hover { opacity: 1; }
+    .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.2);
+      text-align: center; padding: 12px 0;
+      font-size: 13px; color: #f5c6c2;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .register-layout { flex-direction: column; }
+      .register-info-col { flex: 0 0 auto; }
+      .header-left-col { flex-direction: column; align-items: flex-start; }
+      .main-nav { flex-wrap: wrap; }
+      .footer-grid { flex-direction: column; }
+      .nav-links a { font-size: 11px; padding: 3px 6px; }
+    }
+
+    @media (max-width: 600px) {
+      .wizard-body   { padding: 18px 14px; }
+      .wizard-footer { padding: 14px; }
+      .wizard-header { padding: 18px 16px; }
+      .wizard-steps-indicator { padding: 14px 10px; gap: 4px; }
+      .step-line { min-width: 10px; }
+      .star { font-size: 28px; }
+      .yesno-group { gap: 10px; }
+      .btn { padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER TOP ===== -->
+  <div class="header-top">
+    <div class="header-logo">
+      <img src="LOGO 1 - Copy_2.png" alt="شعار جماعة بركان" height="56" width="56">
+    </div>
+    <div class="header-left-col">
+      <nav class="nav-links" aria-label="روابط سريعة">
+        <a href="https://www.communeberkane.ma/ar"><strong>الرئيسية</strong></a>
+        <a href="https://www.communeberkane.ma/ar/خريطة-الموقع"><strong>خريطة الموقع</strong></a>
+        <a href="https://www.communeberkane.ma/ar/اتصل-بنا"><strong>اتصل بنا</strong></a>
+      </nav>
+      <div class="social-bar">
+        <a href="https://www.youtube.com/@communeberkane8727" target="_blank" aria-label="يوتيوب">
+          <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        </a>
+        <a href="https://x.com/berkanecommune" target="_blank" aria-label="تويتر">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/commune_berkane" target="_blank" aria-label="إنستغرام">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/commune.B" target="_blank" aria-label="فيسبوك">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN NAV ===== -->
+  <nav class="main-nav" aria-label="القائمة الرئيسية">
+    <a href="#" class="empty"></a>
+    <a href="#"><strong>الجماعة</strong></a>
+    <a href="#"><strong>المجلس الجماعي</strong></a>
+    <a href="#"><strong>الحوكمة</strong></a>
+    <a href="#"><strong>الميزانية المفتوحة</strong></a>
+    <a href="#" class="active"><strong>خدمات للمواطنين والمقاولات</strong></a>
+    <a href="#"><strong>المشاركة المواطنة</strong></a>
+    <a href="#"><strong>التعاون والشراكات</strong></a>
+  </nav>
+
+  <!-- ===== WIZARD ===== -->
+  <section id="evaluation-wizard" aria-label="استمارة تقييم الخدمات">
+    <div class="wizard-card">
+
+      <!-- En-tête fixe -->
+      <div class="wizard-header">
+        <h2>تقييم الخدمات</h2>
+        <p>ساعدنا في تحسين خدماتنا من خلال إجابتكم على هذه الأسئلة القصيرة</p>
+      </div>
+
+      <!-- Indicateur d'étapes (généré par JS) -->
+      <div class="wizard-steps-indicator" id="stepsIndicator" aria-label="مراحل الاستمارة"></div>
+
+      <!-- Corps des étapes -->
+      <div class="wizard-body">
+
+        <!-- ── ÉTAPE 0 : Inscription ── -->
+        <div class="wizard-step active" id="step-0" role="group" aria-labelledby="s0-title">
+          <p class="step-title" id="s0-title">معلوماتكم الشخصية</p>
+
+        <div class="register-box">
+            <div class="container">
+          <h1>مرحبا بكم في تقييم تجربتكم</h1>
+
+          <p class="intro">
+          نحن نقدر وقتكم في تقديم تقييمكم.<br>
+          هدفنا هو تحسين خدماتنا باستمرار.<br>
+          وملاحظاتكم تساعدنا في تحقيق ذلك.<br>
+         يرجى مشاركة تجربتكم الصادقة معنا.
+          </p>
+          </div>
+          <h2 style="color: #e56700;">المرجو إملاء المعلومات التالية</h2>
+
+          <div class="field-group">
+            <label>الاسم الكامل:</label>
+            <input type="text" id="f-name" placeholder="الاسم الكامل">
+            <small class="field-error" id="name-error"></small>
+          </div>
+
+          <div class="field-group">
+            <label>البريد الإلكتروني:</label>
+            <input type="email" id="f-email" placeholder="example@fake.com">
+            <small class="field-error" id="email-error"></small>
+          </div>
+
+          <button class="login-btn" onclick="nextStep()">تسجيل دخول</button>
+
+        </div>
+
+          <p class="validation-msg" id="register-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 1 : Âge & Genre ── -->
+        <div class="wizard-step" id="step-1" role="group" aria-labelledby="s1-title">
+          <p class="step-title" id="s1-title">معلومات ديموغرافية</p>
+
+          <div class="age-gender-layout">
+            <!-- Genre -->
+            <div>
+              <p style="font-size:14px; font-weight:600; color:#555; margin-bottom:10px;">الجنس</p>
+              <div class="gender-group" id="genderGroup">
+                <button class="gender-btn" data-sex="male" type="button">رجل</button>
+                <button class="gender-btn" data-sex="female" type="button">امرأة</button>
+              </div>
+            </div>
+
+            <!-- Âge -->
+            <div>
+              <p style="font-size:14px; font-weight:600; color:#555; margin-bottom:10px;">الفئة العمرية</p>
+              <div class="options-list" id="ageOptions">
+                <div class="option-item" data-value="under18" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">أقل من 18 سنة</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="18-25" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">18 – 25</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="26-35" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">26 – 35</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="36-45" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">36 – 45</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="46-55" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">46 – 55</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="56-65" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">56 – 65</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+                <div class="option-item" data-value="over65" role="radio" aria-checked="false" tabindex="0">
+                  <span class="option-label">أكثر من 65 سنة</span>
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="validation-msg" id="age-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 2 : Choix du bureau ── -->
+        <div class="wizard-step" id="step-2" role="group" aria-labelledby="s2-title">
+          <p class="step-title" id="s2-title">اختر المكتب المعني بالخدمة</p>
+          <div class="offices-grid" id="officesGrid"></div>
+          <p class="validation-msg" id="office-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 3 : Questions étoiles ── -->
+        <div class="wizard-step" id="step-3" role="group" aria-labelledby="s3-title">
+          <div class="questions-progress">
+            <div class="progress-label">
+              <span id="questionCounter">السؤال 1 من 8</span>
+              <span id="questionPct">0%</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+            </div>
+          </div>
+          <p class="question-text" id="questionText"></p>
+          <div class="stars-container" id="starsContainer" role="radiogroup" aria-label="التقييم من 1 إلى 5"></div>
+          <p class="stars-hint" id="starsHint">اختر تقييمك</p>
+          <p class="validation-msg" id="rating-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 4 : Oui / Non ── -->
+        <div class="wizard-step" id="step-4" role="group" aria-labelledby="s4-title">
+          <p class="step-title" id="s4-title">هل تم حل مشكلتكم؟</p>
+          <div class="yesno-group">
+            <button class="yesno-btn" id="btn-yes" type="button" onclick="selectYesNo(true)" aria-pressed="false">
+              <div class="btn-icon">✅</div>
+              <div>نعم</div>
+            </button>
+            <button class="yesno-btn" id="btn-no" type="button" onclick="selectYesNo(false)" aria-pressed="false">
+              <div class="btn-icon">❌</div>
+              <div>لا</div>
+            </button>
+          </div>
+          <p class="validation-msg" id="yesno-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 5 : Améliorations ── -->
+        <div class="wizard-step" id="step-5" role="group" aria-labelledby="s5-title">
+          <p class="step-title" id="s5-title">ما الذي يمكن تحسينه؟</p>
+          <div class="improvement-options">
+            <label class="improvement-card">
+              <input type="checkbox" value="تقليص أوقات الانتظار">
+              <span>تقليص أوقات الانتظار</span>
+            </label>
+            <label class="improvement-card">
+              <input type="checkbox" value="تعزيز المشاركة المواطنة">
+              <span>تعزيز المشاركة المواطنة</span>
+            </label>
+            <label class="improvement-card">
+              <input type="checkbox" value="تعزيز القدرات الرقمية">
+              <span>تعزيز القدرات الرقمية للمواطنين والموظفين</span>
+            </label>
+            <label class="improvement-card">
+              <input type="checkbox" value="تحسين الاستقبال والتوجيه">
+              <span>تحسين خدمة الاستقبال والتوجيه</span>
+            </label>
+            <label class="improvement-card">
+              <input type="checkbox" id="otherImprovement">
+              <span>أخرى (أضف ملاحظتك)</span>
+            </label>
+            <textarea
+              id="commentField"
+              class="comment-textarea"
+              placeholder="اكتب ملاحظاتك هنا..."
+              style="display:none"
+            ></textarea>
+          </div>
+          <p class="validation-msg" id="improvement-error"></p>
+        </div>
+
+        <!-- ── ÉTAPE 6 : Merci + Envoi ── -->
+        <div class="wizard-step" id="step-6" role="group">
+          <div class="thank-you-content">
+            <div class="thank-you-icon">🎉</div>
+            <h3>شكراً لمشاركتكم رأيكم</h3>
+            <p>تقييمكم يساعدنا على تحسين جودة خدماتنا للمواطنين والمقاولات.</p>
+            <button class="btn btn-submit" id="btnSubmit" onclick="submitEvaluation()">
+              إرسال التقييم
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /.wizard-body -->
+
+      <!-- Boutons de navigation -->
+      <div class="wizard-footer">
+        <button class="btn btn-prev" id="btnPrev" type="button" onclick="prevStep()" aria-label="العودة للخطوة السابقة">
+          ← السابق
+        </button>
+        <button class="btn btn-next" id="btnNext" type="button" onclick="nextStep()" disabled aria-label="الانتقال للخطوة التالية">
+          التالي ←
+        </button>
+      </div>
+
+    </div><!-- /.wizard-card -->
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <img src="LOGO 1 - Copy_2.png" alt="شعار جماعة بركان" height="100" width="100">
+      </div>
+      <div class="footer-col">
+        <h4>الجماعة الترابية</h4>
+        <ul>
+          <li><a href="https://www.communeberkane.ma/ar/تقديم-الجماعة" target="_blank">الجماعة</a></li>
+          <li><a href="https://www.communeberkane.ma/ar/الحكامة/اختصاصات-الجماعة" target="_blank">اختصاصات الجماعة</a></li>
+          <li><a href="https://www.communeberkane.ma/ar/تشكيلة-المجلس" target="_blank">تشكيلة المجلس</a></li>
+          <li><a href="https://www.communeberkane.ma/ar/اتصل-بنا" target="_blank">للاتصال بنا</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>روابط مفيدة</h4>
+        <ul>
+          <li><a href="https://www.maroc.ma/ar" target="_blank">بوابة المغرب</a></li>
+          <li><a href="https://www.marchespublics.gov.ma/pmmp/" target="_blank">بوابة الصفقات العمومية</a></li>
+          <li><a href="https://www.sgg.gov.ma/arabe/Accueil.aspx" target="_blank">الأمانة العامة للحكومة</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>للاتصال بنا</h4>
+        <ul>
+          <li><a href="mailto:communedeberkane@gmail.com">✉ communedeberkane@gmail.com</a></li>
+          <li><a href="https://www.google.com/maps/place/Berkane/@34.9281295,-2.3227898,13z" target="_blank">📍 طريق وجدة، بركان</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="https://www.youtube.com/@communeberkane8727" target="_blank" aria-label="يوتيوب">
+            <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          </a>
+          <a href="https://x.com/berkanecommune" target="_blank" aria-label="تويتر">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/commune_berkane" target="_blank" aria-label="إنستغرام">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/commune.B" target="_blank" aria-label="فيسبوك">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      جميع الحقوق محفوظة &copy; 2026 &mdash; جماعة بركان
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       JAVASCRIPT — Logique du wizard unifié
+       ================================================================ -->
+  <script>
+    'use strict';
+
+    /* ─────────────────────────────────────────────
+       DONNÉES STATIQUES
+    ───────────────────────────────────────────── */
+    const STEP_LABELS = ['التسجيل', 'الديموغرافية', 'المكتب', 'التقييم', 'المتابعة', 'الملاحظات', 'الإرسال'];
+    const TOTAL_STEPS = STEP_LABELS.length; // 7 étapes (0 → 6)
+
+    const OFFICES = [
+      { name: 'مكتب الحالة المدنية لمحل العثور على المولود',      icon: '🪪' },
+      { name: 'مكتب الحالة المدنية لمحل ولادة المصرح به',         icon: '👶' },
+      { name: 'مكتب الرخص الاقتصادية والشرطة الإدارية',           icon: '🏪' },
+      { name: 'مكتب تتبع المنازعات الإدارية والقضائية',            icon: '⚖️' },
+      { name: 'مكتب الميزانية والمحاسبة',                          icon: '💰' },
+      { name: 'مكتب الدراسات وتتبع الأشغال',                       icon: '🏗️' },
+      { name: 'مكتب تدبير الممتلكات والمرافق العمومية الجماعية',   icon: '🏛️' },
+    ];
+
+    const QUESTIONS = [
+      'ما مدى رضاكم عن وقت الانتظار؟',
+      'ما مدى رضاكم عن الاستقبال؟',
+      'هل قدم الموظفون لكم المعلومات الكافية؟',
+      'ما مدى وضوح الإجراءات المطلوبة؟',
+      'ما مدى نظافة وتنظيم المرفق؟',
+      'ما مدى سهولة الحصول على الخدمة؟',
+      'كيف تقيّمون الخدمات الرقمية المتاحة؟',
+      'ما تقييمكم العام لهذه الخدمة؟',
+    ];
+
+    const STAR_LABELS = ['ضعيف جداً', 'ضعيف', 'متوسط', 'جيد', 'ممتاز'];
+
+    /* ─────────────────────────────────────────────
+       ÉTAT DE L'APPLICATION
+    ───────────────────────────────────────────── */
+    let currentStep    = 0;
+    let currentQuestion = 0;
+
+    const formData = {
+      name:     '',
+      email:    '',
+      age:      null,
+      sex:      null,
+      office:   null,
+      ratings:  {},   // { 0: 4, 1: 3, ... }
+      resolved: null,
+      improvements: [],
+      comment:  '',
+    };
+   
+    /* ─────────────────────────────────────────────
+       VALIDATION — Inscription
+    ───────────────────────────────────────────── */
+    function validateRegister() {
+      const name  = document.getElementById('f-name').value.trim();
+      const email = document.getElementById('f-email').value.trim();
+      const nameEl  = document.getElementById('name-error');
+      const emailEl = document.getElementById('email-error');
+      const globalEl = document.getElementById('register-error');
+
+      nameEl.textContent  = '';
+      emailEl.textContent = '';
+      globalEl.textContent = '';
+
+      let valid = true;
+
+      // Nom : au moins 3 caractères, lettres/espaces uniquement
+      if (!name) {
+        nameEl.textContent = 'يرجى إدخال الاسم الكامل.';
+        document.getElementById('f-name').classList.add('input-error');
+        valid = false;
+      } else if (name.length < 3) {
+        nameEl.textContent = 'يجب أن يحتوي الاسم على 3 أحرف على الأقل.';
+        document.getElementById('f-name').classList.add('input-error');
+        valid = false;
+      } else {
+        document.getElementById('f-name').classList.remove('input-error');
+      }
+
+      // Email : format standard
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        emailEl.textContent = 'يرجى إدخال البريد الإلكتروني.';
+        document.getElementById('f-email').classList.add('input-error');
+        valid = false;
+      } else if (!emailRegex.test(email)) {
+        emailEl.textContent = 'صيغة البريد الإلكتروني غير صحيحة.';
+        document.getElementById('f-email').classList.add('input-error');
+        valid = false;
+      } else {
+        document.getElementById('f-email').classList.remove('input-error');
+      }
+
+      if (valid) {
+        formData.name  = name;
+        formData.email = email;
+      }
+
+      return valid;
+    }
+
+    /* ─────────────────────────────────────────────
+       VALIDATION — Âge & Genre
+    ───────────────────────────────────────────── */
+    function validateAgeSex() {
+      const el = document.getElementById('age-error');
+      if (!formData.age && !formData.sex) {
+        el.textContent = 'يرجى تحديد الجنس والفئة العمرية.';
+        return false;
+      }
+      if (!formData.sex) {
+        el.textContent = 'يرجى تحديد الجنس.';
+        return false;
+      }
+      if (!formData.age) {
+        el.textContent = 'يرجى تحديد الفئة العمرية.';
+        return false;
+      }
+      el.textContent = '';
+      return true;
+    }
+
+    /* ─────────────────────────────────────────────
+       CONSTRUCTION — Indicateur d'étapes
+    ───────────────────────────────────────────── */
+    function buildStepsIndicator() {
+      const container = document.getElementById('stepsIndicator');
+      container.innerHTML = '';
+      STEP_LABELS.forEach((label, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'step-dot';
+        dot.textContent = i + 1;
+        dot.setAttribute('aria-label', label);
+        dot.title = label;
+        container.appendChild(dot);
+        if (i < STEP_LABELS.length - 1) {
+          const line = document.createElement('div');
+          line.className = 'step-line';
+          container.appendChild(line);
+        }
+      });
+    }
+
+    function refreshIndicator() {
+      const dots  = document.querySelectorAll('.step-dot');
+      const lines = document.querySelectorAll('.step-line');
+      dots.forEach((dot, i) => {
+        dot.classList.remove('active', 'done');
+        if (i < currentStep)      dot.classList.add('done');
+        else if (i === currentStep) dot.classList.add('active');
+      });
+      lines.forEach((line, i) => {
+        line.classList.toggle('done', i < currentStep);
+      });
+    }
+
+    /* ─────────────────────────────────────────────
+       CONSTRUCTION — Cartes de bureaux
+    ───────────────────────────────────────────── */
+    function buildOfficeCards() {
+      const grid = document.getElementById('officesGrid');
+      grid.innerHTML = '';
+      OFFICES.forEach(office => {
+        const card = document.createElement('div');
+        card.className = 'office-card';
+        card.setAttribute('role', 'radio');
+        card.setAttribute('aria-checked', 'false');
+        card.setAttribute('tabindex', '0');
+        card.innerHTML = `
+          <div class="office-radio"></div>
+          <span class="office-icon">${office.icon}</span>
+          <span class="office-name">${office.name}</span>
+        `;
+        card.addEventListener('click', () => selectOffice(card, office.name));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectOffice(card, office.name); }
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function selectOffice(selectedCard, name) {
+      document.querySelectorAll('.office-card').forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+      });
+      selectedCard.classList.add('selected');
+      selectedCard.setAttribute('aria-checked', 'true');
+      formData.office = name;
+      document.getElementById('office-error').textContent = '';
+      document.getElementById('btnNext').disabled = false;
+    }
+
+    /* ─────────────────────────────────────────────
+       CONSTRUCTION — Étoiles
+    ───────────────────────────────────────────── */
+    function buildStars() {
+      const container = document.getElementById('starsContainer');
+      container.innerHTML = '';
+      for (let v = 5; v >= 1; v--) {
+        const star = document.createElement('span');
+        star.className = 'star';
+        star.textContent = '★';
+        star.dataset.value = v;
+        star.setAttribute('role', 'radio');
+        star.setAttribute('aria-label', STAR_LABELS[v - 1]);
+        star.setAttribute('tabindex', '0');
+
+        star.addEventListener('mouseover', () => highlightStars(v));
+        star.addEventListener('mouseleave', restoreStars);
+
+        const chooseStar = () => {
+          formData.ratings[currentQuestion] = v;
+          restoreStars();
+          document.getElementById('btnNext').disabled = false;
+          document.getElementById('rating-error').textContent = '';
+          document.getElementById('starsHint').textContent = STAR_LABELS[v - 1];
+        };
+        star.addEventListener('click', chooseStar);
+        star.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chooseStar(); }
+        });
+        container.appendChild(star);
+      }
+    }
+
+    function highlightStars(value) {
+      document.querySelectorAll('.star').forEach(s => {
+        s.classList.toggle('hovered', parseInt(s.dataset.value) <= value);
+      });
+      document.getElementById('starsHint').textContent = STAR_LABELS[value - 1];
+    }
+
+    function restoreStars() {
+      const selected = formData.ratings[currentQuestion];
+      document.querySelectorAll('.star').forEach(s => {
+        const v = parseInt(s.dataset.value);
+        s.classList.remove('hovered');
+        s.classList.toggle('selected', selected !== undefined && v <= selected);
+      });
+      document.getElementById('starsHint').textContent =
+        selected !== undefined ? STAR_LABELS[selected - 1] : 'اختر تقييمك';
+    }
+
+    function renderQuestion() {
+      document.getElementById('questionText').textContent = QUESTIONS[currentQuestion];
+      buildStars();
+      restoreStars();
+      const pct = Math.round((currentQuestion / QUESTIONS.length) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('questionCounter').textContent = `السؤال ${currentQuestion + 1} من ${QUESTIONS.length}`;
+      document.getElementById('questionPct').textContent = pct + '%';
+      document.getElementById('btnNext').disabled = formData.ratings[currentQuestion] === undefined;
+    }
+
+    /* ─────────────────────────────────────────────
+       OUI / NON
+    ───────────────────────────────────────────── */
+    function selectYesNo(value) {
+      formData.resolved = value;
+      document.getElementById('btn-yes').className = 'yesno-btn' + (value  ? ' selected-yes' : '');
+      document.getElementById('btn-no').className  = 'yesno-btn' + (!value ? ' selected-no'  : '');
+      document.getElementById('btn-yes').setAttribute('aria-pressed', value);
+      document.getElementById('btn-no').setAttribute('aria-pressed', !value);
+      document.getElementById('btnNext').disabled = false;
+      document.getElementById('yesno-error').textContent = '';
+    }
+
+    /* ─────────────────────────────────────────────
+       CHANGEMENT D'ÉTAPE
+    ───────────────────────────────────────────── */
+    function showStep(n) {
+      document.querySelectorAll('.wizard-step').forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none';
+      });
+      currentStep = n;
+      const el = document.getElementById(`step-${n}`);
+      el.style.display = 'block';
+      setTimeout(() => el.classList.add('active'), 10);
+      refreshIndicator();
+
+      const btnNext = document.getElementById('btnNext');
+      const btnPrev = document.getElementById('btnPrev');
+
+      if (n === 6) {
+        btnNext.style.display = 'none';
+        btnPrev.style.display = 'none';
+      } else {
+        btnNext.style.display = (n === 0) ? 'none' : 'block';
+        btnPrev.style.display = (n === 0) ? 'none' : 'block';
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       SUIVANT
+    ───────────────────────────────────────────── */
+    function nextStep() {
+      // Étape 0 — Inscription
+      if (currentStep === 0) {
+        if (!validateRegister()) return;
+        showStep(1);
+        document.getElementById('btnNext').disabled = !(formData.age && formData.sex);
+        return;
+      }
+
+      // Étape 1 — Âge & Genre
+      if (currentStep === 1) {
+        if (!validateAgeSex()) return;
+        showStep(2);
+        document.getElementById('btnNext').disabled = !formData.office;
+        return;
+      }
+
+      // Étape 2 — Bureau
+      if (currentStep === 2) {
+        if (!formData.office) {
+          document.getElementById('office-error').textContent = 'يرجى اختيار مكتب للمتابعة.';
+          return;
+        }
+        currentQuestion = 0;
+        showStep(3);
+        renderQuestion();
+        return;
+      }
+
+      // Étape 3 — Questions étoiles
+      if (currentStep === 3) {
+        if (formData.ratings[currentQuestion] === undefined) {
+          document.getElementById('rating-error').textContent = 'يرجى اختيار تقييم قبل المتابعة.';
+          return;
+        }
+        if (currentQuestion < QUESTIONS.length - 1) {
+          currentQuestion++;
+          renderQuestion();
+        } else {
+          showStep(4);
+          document.getElementById('btnNext').disabled = formData.resolved === null;
+        }
+        return;
+      }
+
+      // Étape 4 — Oui/Non
+      if (currentStep === 4) {
+        if (formData.resolved === null) {
+          document.getElementById('yesno-error').textContent = 'يرجى الإجابة بنعم أو لا للمتابعة.';
+          return;
+        }
+        showStep(5);
+        document.getElementById('btnNext').disabled = false;
+        return;
+      }
+
+      // Étape 5 — Améliorations
+      if (currentStep === 5) {
+        const checked = document.querySelectorAll('#step-5 input[type="checkbox"]:checked');
+        if (checked.length === 0) {
+          document.getElementById('improvement-error').textContent = 'يرجى اختيار خيار واحد على الأقل.';
+          return;
+        }
+        formData.improvements = Array.from(checked).map(cb => cb.value || 'أخرى');
+        formData.comment = document.getElementById('commentField').value.trim();
+        showStep(6);
+        return;
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       PRÉCÉDENT
+    ───────────────────────────────────────────── */
+    function prevStep() {
+      // Dans l'étape 3, reculer question par question
+      if (currentStep === 3) {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          renderQuestion();
+        } else {
+          showStep(2);
+          document.getElementById('btnNext').disabled = !formData.office;
+        }
+        return;
+      }
+      if (currentStep > 0) {
+        const prev = currentStep - 1;
+        showStep(prev);
+        if (prev === 0) {
+          document.getElementById('btnNext').disabled = false;
+        } else if (prev === 1) {
+          document.getElementById('btnNext').disabled = !(formData.age && formData.sex);
+        } else if (prev === 2) {
+          document.getElementById('btnNext').disabled = !formData.office;
+        } else if (prev === 4) {
+          document.getElementById('btnNext').disabled = formData.resolved === null;
+        } else {
+          document.getElementById('btnNext').disabled = false;
+        }
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       ENVOI FINAL
+    ───────────────────────────────────────────── */
+    async function submitEvaluation() {
+      const payload = {
+        name:         formData.name,
+        email:        formData.email,
+        age:          formData.age,
+        sex:          formData.sex,
+        office:       formData.office,
+        ratings:      formData.ratings,
+        resolved:     formData.resolved,
+        improvements: formData.improvements,
+        comment:      formData.comment,
+        submittedAt:  new Date().toISOString(),
+      };
+
+      console.log('📋 بيانات التقييم:', JSON.stringify(payload, null, 2));
+
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.textContent = 'جاري الإرسال...';
+
+      try {
+        const res = await fetch('save.php', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('Erreur serveur');
+        
+
+        // Simulation d'envoi
+        await new Promise(r => setTimeout(r, 800));
+
+        btn.textContent = '✓ تم الإرسال بنجاح';
+        btn.style.background = 'var(--clr-success)';
+
+        const msg = document.createElement('p');
+        msg.style.cssText = 'color:var(--clr-success); font-weight:700; margin-top:14px; font-size:15px;';
+        msg.textContent = 'تم إرسال تقييمكم بنجاح. شكراً لكم!';
+        document.querySelector('.thank-you-content').appendChild(msg);
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'إرسال التقييم';
+        console.error('Submit error:', err);
+        const errMsg = document.createElement('p');
+        errMsg.style.cssText = 'color:var(--clr-error); margin-top:10px;';
+        errMsg.textContent = 'حدث خطأ أثناء الإرسال. يرجى المحاولة مجدداً.';
+        document.querySelector('.thank-you-content').appendChild(errMsg);
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       ÉVÉNEMENTS — Âge
+    ───────────────────────────────────────────── */
+    document.querySelectorAll('.option-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.option-item').forEach(o => {
+          o.classList.remove('selected');
+          o.setAttribute('aria-checked', 'false');
+        });
+        item.classList.add('selected');
+        item.setAttribute('aria-checked', 'true');
+        formData.age = item.dataset.value;
+        document.getElementById('age-error').textContent = '';
+        document.getElementById('btnNext').disabled = !formData.sex;
+      });
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+      });
+    });
+
+    /* ─────────────────────────────────────────────
+       ÉVÉNEMENTS — Genre
+    ───────────────────────────────────────────── */
+    document.querySelectorAll('.gender-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        formData.sex = btn.dataset.sex;
+        document.getElementById('age-error').textContent = '';
+        document.getElementById('btnNext').disabled = !formData.age;
+      });
+    });
+
+    /* ─────────────────────────────────────────────
+       ÉVÉNEMENTS — "Autre" amélioration
+    ───────────────────────────────────────────── */
+    document.getElementById('otherImprovement').addEventListener('change', function() {
+      const field = document.getElementById('commentField');
+      field.style.display = this.checked ? 'block' : 'none';
+      if (!this.checked) field.value = '';
+    });
+
+    /* ─────────────────────────────────────────────
+       INITIALISATION
+    ───────────────────────────────────────────── */
+    (function init() {
+      buildStepsIndicator();
+      buildOfficeCards();
+      refreshIndicator();
+
+      // Cacher tous les steps sauf le 0
+      document.querySelectorAll('.wizard-step').forEach((s, i) => {
+        if (i > 0) s.style.display = 'none';
+      });
+
+      document.getElementById('btnPrev').style.display = 'none';
+      document.getElementById('btnNext').style.display = 'none'; // Étape 0: bouton actif, validation au clic
+    })();
+    
+  </script>
+
+</body>
+</html>
